@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  bot:
+    build: .
+    env_file: .env
+    depends_on:
+      - db
+    command: ["python", "main.py"]
+
+  db:
+    image: postgres:latest
+    ports:
+      - "${DB_PORT}:5433"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
